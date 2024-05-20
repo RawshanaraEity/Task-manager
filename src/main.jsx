@@ -12,10 +12,20 @@ import AboutUs from './Pages/AboutUs/AboutUs';
 import Dashboard from './Layout/Dashboard';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
+import AuthProvider from './Providers/AuthProvider';
 import TaskList from './Pages/Dashboard/TaskList';
 import CreateTask from './Pages/Dashboard/CreateTask';
 import Calender from './Pages/Dashboard/Calender';
 import PrevioustTask from './Pages/Dashboard/PrevioustTask';
+import {
+  QueryClient, 
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -69,8 +79,15 @@ const router = createBrowserRouter([
   },
 ]);
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-     <RouterProvider router={router} />
+       <DndProvider backend={HTML5Backend}>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthProvider>
+      </DndProvider>
   </React.StrictMode>,
 )
